@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.DirectDriveCommand;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,7 +17,7 @@ public class DrivingSubsystem extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
-		//this.setDefaultCommand(new DirectDriveCommand());
+		this.setDefaultCommand(new DirectDriveCommand());
 	}
 	
 	public void drive(double ySpeed, double rotation) {
@@ -59,8 +60,8 @@ public class DrivingSubsystem extends Subsystem {
 
 	// Directly set the speed of the talons to 0. If a command that sets the speed is still running, this won't stop it.
 	public void stop() {
-		RobotMap.leftFrontDriveTalon.set(0);
-		RobotMap.rightFrontDriveTalon.set(0);
+		// RobotMap.leftFrontDriveTalon.set(0);
+		// RobotMap.rightFrontDriveTalon.set(0);
 	}
 
 

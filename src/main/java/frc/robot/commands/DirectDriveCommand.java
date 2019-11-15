@@ -12,7 +12,8 @@ public class DirectDriveCommand extends Command {
 
 	protected void initialize() {
 		// Make sure the controller is initialized before we try to use it.
-		
+		if(Robot.oi.controller1 == null) throw new NullPointerException("Controller was null.");
+
 	}
 
 	protected void execute() {
