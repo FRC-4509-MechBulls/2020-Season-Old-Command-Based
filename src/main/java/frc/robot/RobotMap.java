@@ -48,7 +48,7 @@ public class RobotMap {
 		
 		RobotMap.drive = new DifferentialDrive(RobotMap.leftFrontDriveTalon, RobotMap.rightFrontDriveTalon);
 		
-		// RobotMap.drive.setDeadband(0);
+		RobotMap.drive.setDeadband(0);
 	}
 	
 

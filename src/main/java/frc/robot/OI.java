@@ -17,14 +17,15 @@ public class OI {
         this.controller1 = new XboxController1(OI.XBOX_CONTROLLER_1_PORT);
         this.controller2 = new XboxController2(OI.XBOX_CONTROLLER_2_PORT);
     }
-	class DriveTrigger extends Trigger {
-		public boolean get() { return (Robot.oi.controller1.getDrive() != 0 || Robot.oi.controller1.getTurn() != 0); }
-    }
-    
     public void setTriggers(){
         this.driveTrigger.whileActive(new DirectDriveCommand());
 
 
     }
+
+	class DriveTrigger extends Trigger {
+		public boolean get() { return (Robot.oi.controller1.getDrive() != 0 || Robot.oi.controller1.getTurn() != 0); }
+    }
+    
 
 }

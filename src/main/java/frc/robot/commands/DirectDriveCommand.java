@@ -16,7 +16,7 @@ public class DirectDriveCommand extends Command {
 
 	}
 
-	protected void execute() {
+	public void execute() {
 		Robot.drivingSubsystem.drive(Robot.oi.controller1.getDrive(), Robot.oi.controller1.getTurn()); // Use input directly from the controller
 	}
 

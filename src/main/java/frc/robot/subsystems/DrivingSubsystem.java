@@ -12,6 +12,7 @@ public class DrivingSubsystem extends Subsystem {
 
 	public double baseDriveSpeed = 0.90;
 	public boolean doReverse = false;
+	//public PIDController turnPIDController;
 
 
 
@@ -63,6 +64,12 @@ public class DrivingSubsystem extends Subsystem {
 		// RobotMap.leftFrontDriveTalon.set(0);
 		// RobotMap.rightFrontDriveTalon.set(0);
 	}
+	// public void createTurnPositionController() {	
+	// 	this.turnPIDController.setInputRange(-180, 180);
+	// 	this.turnPIDController.setContinuous(true);
+	// 	this.turnPIDController.setOutputRange(-1, 1);
+	// 	this.turnPIDController.setAbsoluteTolerance(2);
+	// }
 
 
 	
