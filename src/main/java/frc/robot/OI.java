@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.DirectDriveCommand;
+import frc.robot.commands.WheelArmCommand;
 import frc.robot.controls.ControllerBase;
 import frc.robot.controls.XboxController1;
 import frc.robot.controls.XboxController2;
@@ -12,6 +13,7 @@ public class OI {
     public XboxController1 controller1;
     public XboxController2 controller2;
     DriveTrigger driveTrigger;
+    GrabberTrigger grabberTrigger;
 
     public OI(){
         this.controller1 = new XboxController1(OI.XBOX_CONTROLLER_1_PORT);
@@ -19,7 +21,7 @@ public class OI {
     }
     public void setTriggers(){
         this.driveTrigger.whileActive(new DirectDriveCommand());
-
+        this.grabberTrigger.whileActive(new WheelArmCommand());
 
     }
 
