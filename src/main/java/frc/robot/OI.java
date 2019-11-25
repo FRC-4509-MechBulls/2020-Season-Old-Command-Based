@@ -26,6 +26,8 @@ public class OI {
 	class DriveTrigger extends Trigger {
 		public boolean get() { return (Robot.oi.controller1.getDrive() != 0 || Robot.oi.controller1.getTurn() != 0); }
     }
-    
+    class GrabberTrigger extends Trigger{
+        public boolean get(){ return (Robot.oi.controller1.getArm() != 0);}
+    }
 
 }

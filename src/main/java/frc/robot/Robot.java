@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DirectDriveCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivingSubsystem;
 
 /**
@@ -24,6 +25,7 @@ import frc.robot.subsystems.DrivingSubsystem;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
+  public static final ArmSubsystem armSubsystem = new ArmSubsystem();
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   public static OI oi;
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     RobotMap.initDrive();
+    RobotMap.initArm();
   }
 
   /**
@@ -98,7 +101,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  //  directDriveCommand.execute();
   Scheduler.getInstance().run();
 
   }

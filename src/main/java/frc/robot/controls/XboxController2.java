@@ -16,7 +16,7 @@ public class XboxController2 implements ControllerBase{
         return 0.0;
     }
     public double getArm(){
-        double n = -1 * this.controller2.getY(GenericHID.Hand.kRight);
+        double n = this.controller2.getY(GenericHID.Hand.kRight);
 		return Math.abs(n) < 0.1 ? 0 : n;
     }
 }

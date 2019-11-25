@@ -50,26 +50,21 @@ public class DrivingSubsystem extends Subsystem {
     RobotMap.drive.arcadeDrive(speed,rotation);
   }
 	// Drive straight
-	public void drive(double speed) {
-		this.drive(speed, 0);
-	}
+	// public void drive(double speed) {
+	// 	this.drive(speed, 0);
+	// }
 	
-	// Pivot
-	public void turn(double direction) {
-		this.drive(0, direction);
-	}
+	// // Pivot
+	// public void turn(double direction) {
+	// 	this.drive(0, direction);
+	// }
 
 	// Directly set the speed of the talons to 0. If a command that sets the speed is still running, this won't stop it.
 	public void stop() {
-		// RobotMap.leftFrontDriveTalon.set(0);
-		// RobotMap.rightFrontDriveTalon.set(0);
+		RobotMap.leftFrontDriveTalon.set(0);
+		RobotMap.rightFrontDriveTalon.set(0);
 	}
-	// public void createTurnPositionController() {	
-	// 	this.turnPIDController.setInputRange(-180, 180);
-	// 	this.turnPIDController.setContinuous(true);
-	// 	this.turnPIDController.setOutputRange(-1, 1);
-	// 	this.turnPIDController.setAbsoluteTolerance(2);
-	// }
+
 
 
 	

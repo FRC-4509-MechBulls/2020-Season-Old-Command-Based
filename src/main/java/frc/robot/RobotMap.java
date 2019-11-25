@@ -27,12 +27,14 @@ public class RobotMap {
 	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 7;
 	public static final int RIGHT_FRONT_DRIVE_TALON_PORT = 1;
 	public static final int RIGHT_BACK_DRIVE_TALON_PORT  = 3;
+	public static final int GRABBER_TALON_PORT = 8;
 
 
 	public static WPI_TalonSRX leftFrontDriveTalon;
 	public static WPI_TalonSRX leftBackDriveTalon;
 	public static WPI_TalonSRX rightFrontDriveTalon;
 	public static WPI_TalonSRX rightBackDriveTalon;
+	public static WPI_TalonSRX grabberTalon;
 	public static DifferentialDrive drive;
 
 	
@@ -49,6 +51,9 @@ public class RobotMap {
 		RobotMap.drive = new DifferentialDrive(RobotMap.leftFrontDriveTalon, RobotMap.rightFrontDriveTalon);
 		
 		RobotMap.drive.setDeadband(0);
+	}
+	public static void initArm(){
+		RobotMap.grabberTalon = new WPI_TalonSRX(RobotMap.GRABBER_TALON_PORT);
 	}
 	
 
