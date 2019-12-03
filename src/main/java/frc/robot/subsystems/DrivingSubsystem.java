@@ -35,20 +35,20 @@ public class DrivingSubsystem extends Subsystem {
 		RobotMap.drive.arcadeDrive(ySpeed, rotation); // function provided by the drivetrain. controls y and turn speed at the same time.
 	}
 	
-	public void rawDrive(double ySpeed, double rotation) {
+// 	public void rawDrive(double ySpeed, double rotation) {
 		
-		if(Math.abs(ySpeed) > 1)
-			ySpeed = Math.abs(ySpeed) / ySpeed; // if the value given was too high, set it to the max
-		if(doReverse) ySpeed *= -1;
+// 		if(Math.abs(ySpeed) > 1)
+// 			ySpeed = Math.abs(ySpeed) / ySpeed; // if the value given was too high, set it to the max
+// 		if(doReverse) ySpeed *= -1;
 		
-		if(Math.abs(rotation) > 1)
-			rotation = Math.abs(rotation) / rotation; // if the value given was too high, set it to the max
+// 		if(Math.abs(rotation) > 1)
+// 			rotation = Math.abs(rotation) / rotation; // if the value given was too high, set it to the max
 		
-		RobotMap.drive.arcadeDrive(ySpeed, rotation); // function provided by the drivetrain. controls y and turn speed at the same time.
-	}
-	public void autoDrive (double speed, double rotation){
-    RobotMap.drive.arcadeDrive(speed,rotation);
-  }
+// 		RobotMap.drive.arcadeDrive(ySpeed, rotation); // function provided by the drivetrain. controls y and turn speed at the same time.
+// 	}
+// 	public void autoDrive (double speed, double rotation){
+//     RobotMap.drive.arcadeDrive(speed,rotation);
+//   }
 	// Drive straight
 	// public void drive(double speed) {
 	// 	this.drive(speed, 0);
