@@ -30,31 +30,11 @@ public class RobotMap {
 	public static final int GRABBER_TALON_PORT = 8;
 
 
-	public static WPI_TalonSRX leftFrontDriveTalon;
-	public static WPI_TalonSRX leftBackDriveTalon;
-	public static WPI_TalonSRX rightFrontDriveTalon;
-	public static WPI_TalonSRX rightBackDriveTalon;
-	public static WPI_TalonSRX grabberTalon;
-	public static DifferentialDrive drive;
 
 	
-	// Initialize anything related to driving (motor controllers, encoders, etc.)
-	public static void initDrive() {
-		RobotMap.leftFrontDriveTalon  = new WPI_TalonSRX(RobotMap.LEFT_FRONT_DRIVE_TALON_PORT);
-		RobotMap.leftBackDriveTalon   = new WPI_TalonSRX(RobotMap.LEFT_BACK_DRIVE_TALON_PORT);
-		RobotMap.rightFrontDriveTalon = new WPI_TalonSRX(RobotMap.RIGHT_FRONT_DRIVE_TALON_PORT);
-		RobotMap.rightBackDriveTalon  = new WPI_TalonSRX(RobotMap.RIGHT_BACK_DRIVE_TALON_PORT);
-		
-		RobotMap.leftBackDriveTalon.follow(RobotMap.leftFrontDriveTalon);
-		RobotMap.rightBackDriveTalon.follow(RobotMap.rightFrontDriveTalon);
-		
-		RobotMap.drive = new DifferentialDrive(RobotMap.leftFrontDriveTalon, RobotMap.rightFrontDriveTalon);
-		
-		RobotMap.drive.setDeadband(0);
-	}
-	public static void initArm(){
-		RobotMap.grabberTalon = new WPI_TalonSRX(RobotMap.GRABBER_TALON_PORT);
-	}
+
+	
+
 	
 
 

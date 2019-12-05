@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.DirectDriveCommand;
 import frc.robot.commands.WheelArmCommand;
-import frc.robot.controls.ControllerBase;
+
 import frc.robot.controls.XboxController1;
 import frc.robot.controls.XboxController2;
 
@@ -29,7 +29,7 @@ public class OI {
 		public boolean get() { return (Robot.oi.controller1.getDrive() != 0 || Robot.oi.controller1.getTurn() != 0); }
     }
     class GrabberTrigger extends Trigger{
-        public boolean get(){ return (Robot.oi.controller1.getArm() != 0);}
+        public boolean get(){ return (Robot.oi.controller2.getArm() != 0);}
     }
 
 }
