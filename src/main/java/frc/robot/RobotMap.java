@@ -28,7 +28,8 @@ public class RobotMap {
 	public static final int RIGHT_FRONT_DRIVE_TALON_PORT = 1;
 	public static final int RIGHT_BACK_DRIVE_TALON_PORT  = 3;
 	public static final int GRABBER_TALON_PORT = 8;
-
+	public static final int XBOX_CONTROLLER_1_PORT = 0;
+    public static final int XBOX_CONTROLLER_2_PORT = 1;
 
 
 	
