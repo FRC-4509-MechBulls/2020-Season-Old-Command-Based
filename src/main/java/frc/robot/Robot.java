@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -31,6 +35,11 @@ public class Robot extends TimedRobot {
   public static OI oi;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  StringBuilder _sb = new StringBuilder();
+  Joystick _joy = new Joystick(0);
+  int _loops = 0;
+  boolean _lastButton1 = false;
+	double targetPositionRotations;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -44,7 +53,127 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     drivingSubsystem.initDrive();
     armSubsystem.initArm();
+		/* Config the sensor used for Primary PID and sensor direction */
+    RobotMap.elevatorTalon.configFactoryDefault();
+    RobotMap.elevatorTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.kPIDLoopIdx, RobotMap.kTimeoutMs);
+    /* Ensure sensor is positive when output is positive */
+		RobotMap.elevatorTalon.setSensorPhase(RobotMap.kSensorPhase);
+
+		/**
+		 * Set based on what direction you want forward/positive to be.
+		 * This does not affect sensor phase. 
+		 */ 
+		RobotMap.elevatorTalon.setInverted(RobotMap.kMotorInvert);
+
+		/* Config the peak and nominal outputs, 12V means full */
+		RobotMap.elevatorTalon.configNominalOutputForward(0, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.configNominalOutputReverse(0, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.configPeakOutputForward(1, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.configPeakOutputReverse(-1, RobotMap.kTimeoutMs);
+
+		/**
+		 * Config the allowable closed-loop error, Closed-Loop output will be
+		 * neutral within this range. See Table in Section 17.2.1 for native
+		 * units per rotation.
+		 */
+		RobotMap.elevatorTalon.configAllowableClosedloopError(0, RobotMap.kPIDLoopIdx, RobotMap.kTimeoutMs);
+
+		/* Config Position Closed Loop gains in slot0, tsypically kF stays zero. */
+		RobotMap.elevatorTalon.config_kF(RobotMap.kPIDLoopIdx, RobotMap.kGains.kF, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.config_kP(RobotMap.kPIDLoopIdx, RobotMap.kGains.kP, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.config_kI(RobotMap.kPIDLoopIdx, RobotMap.kGains.kI, RobotMap.kTimeoutMs);
+		RobotMap.elevatorTalon.config_kD(RobotMap.kPIDLoopIdx, RobotMap.kGains.kD, RobotMap.kTimeoutMs);
+
+		/**
+		 * Grab the 360 degree position of the MagEncoder's absolute
+		 * position, and intitally set the relative sensor to match.
+		 */
+		int absolutePosition = RobotMap.elevatorTalon.getSensorCollection().getPulseWidthPosition();
+
+		/* Mask out overflows, keep bottom 12 bits */
+		absolutePosition &= 0xFFF;
+		if (RobotMap.kSensorPhase) { absolutePosition *= -1; }
+		if (RobotMap.kMotorInvert) { absolutePosition *= -1; }
+		
+		/* Set the quadrature (relative) sensor to match absolute */
+		RobotMap.elevatorTalon.setSelectedSensorPosition(absolutePosition, RobotMap.kPIDLoopIdx, RobotMap.kTimeoutMs);
   }
+  void commonLoop() {
+		/* Gamepad processing */
+		double leftYstick = _joy.getY();
+		boolean button1 = _joy.getRawButton(1);	// X-Button
+		boolean button2 = _joy.getRawButton(2);	// A-Button
+
+		/* Get Talon/Victor's current output percentage */
+		double motorOutput = RobotMap.elevatorTalon.getMotorOutputPercent();
+
+		/* Deadband gamepad */
+		if (Math.abs(leftYstick) < 0.10) {
+			/* Within 10% of zero */
+			leftYstick = 0;
+		}
+
+		/* Prepare line to print */
+		_sb.append("\tout:");
+		/* Cast to int to remove decimal places */
+		_sb.append((int) (motorOutput * 100));
+		_sb.append("%");	// Percent
+
+		_sb.append("\tpos:");
+		_sb.append(RobotMap.elevatorTalon.getSelectedSensorPosition(0));
+		_sb.append("u"); 	// Native units
+
+		/**
+		 * When button 1 is pressed, perform Position Closed Loop to selected position,
+		 * indicated by Joystick position x10, [-10, 10] rotations
+		 */
+		if (!_lastButton1 && button1) {
+			/* Position Closed Loop */
+
+			/* 10 Rotations * 4096 u/rev in either direction */
+			targetPositionRotations = leftYstick * 10.0 * 4096;
+			RobotMap.elevatorTalon.set(ControlMode.Position, targetPositionRotations);
+		}
+
+		/* When button 2 is held, just straight drive */
+		if (button2) {
+			/* Percent Output */
+
+			RobotMap.elevatorTalon.set(ControlMode.PercentOutput, leftYstick);
+		}
+
+		/* If Talon is in position closed-loop, print some more info */
+		if (RobotMap.elevatorTalon.getControlMode() == ControlMode.Position) {
+			/* ppend more signals to print when in speed mode. */
+			_sb.append("\terr:");
+			_sb.append(RobotMap.elevatorTalon.getClosedLoopError(0));
+			_sb.append("u");	// Native Units
+
+			_sb.append("\ttrg:");
+			_sb.append(targetPositionRotations);
+			_sb.append("u");	/// Native Units
+		}
+
+		/**
+		 * Print every ten loops, printing too much too fast is generally bad
+		 * for performance.
+		 */
+		if (++_loops >= 10) {
+			_loops = 0;
+			System.out.println(_sb.toString());
+		}
+
+		/* Reset built string for next loop */
+		_sb.setLength(0);
+		
+		/* Save button state for on press detect */
+		_lastButton1 = button1;
+    }
+    
+	/**
+	 * This function is called periodically during operator control
+	 */
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -102,7 +231,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
   Scheduler.getInstance().run();
-
+  commonLoop();
   }
 
   /**
