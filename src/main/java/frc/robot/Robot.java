@@ -17,9 +17,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.controls.XboxController2;
 import frc.robot.commands.DirectDriveCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivingSubsystem;
+import frc.robot.subsystems.EncoderSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,14 +34,15 @@ public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   public static final DrivingSubsystem drivingSubsystem = new DrivingSubsystem();
    public static final ArmSubsystem armSubsystem = new ArmSubsystem();
+	public static EncoderSubsystem encoderSubsystem = new EncoderSubsystem();
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   public static OI oi;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   WPI_TalonSRX leftMotors = new WPI_TalonSRX(2);
   WPI_TalonSRX rightMotors = new WPI_TalonSRX(3);
-
-  DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
+	XboxController2 xbox = new XboxController2(1);
+  public DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
   StringBuilder _sb = new StringBuilder();
   Joystick _joy = new Joystick(0);
@@ -59,7 +62,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
      drivingSubsystem.initDrive();
 	armSubsystem.initArm();
-	
+	encoderSubsystem.initElevator();
+
+
 	
   }
 
@@ -108,28 +113,28 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-	   // Assuming no wheel slip, the difference in encoder distances is proportional to the heading error
-	   double error = RobotMap.leftEncoder.getDistance() - RobotMap.rightEncoder.getDistance();
+	//    // Assuming no wheel slip, the difference in encoder distances is proportional to the heading error
+	//    double error = RobotMap.leftEncoder.getDistance() - RobotMap.rightEncoder.getDistance();
 
-	   // Drives forward continuously at half speed, using the encoders to stabilize the heading
-	  System.out.println(RobotMap.leftEncoder.getDistance());
-	  System.out.println(RobotMap.rightEncoder.getDistance());
+	//    // Drives forward continuously at half speed, using the encoders to stabilize the heading
+	//   System.out.println(RobotMap.leftEncoder.getDistance());
+	//   System.out.println(RobotMap.rightEncoder.getDistance());
 
-	   if(RobotMap.leftEncoder.getDistance() < 1000 && RobotMap.rightEncoder.getDistance() < 1000 ) {
-        drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
-    } else {
-        drive.tankDrive(0, 0);
+	//    if(RobotMap.leftEncoder.getDistance() < 1000 && RobotMap.rightEncoder.getDistance() < 1000 ) {
+    //     drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
+    // } else {
+    //     drive.tankDrive(0, 0);
+    // }
+    // switch (m_autoSelected) {
+    //   case kCustomAuto:
+    //     // Put custom auto code here
+    //     break;
+    //   case kDefaultAuto:
+    //   default:
+    //     // Put default auto code here
+    //     break;
     }
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
-  }
+  
 
   /**
    * This function is called periodically during operator control.
@@ -137,7 +142,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
   Scheduler.getInstance().run();
-//   commonLoop();
+if(xbox.setEncoder()==true){
+	encoderSubsystem.motorSet();
+}
+else{
+	RobotMap.rightEncoder.reset();
+    RobotMap.leftEncoder.reset();
+}
   }
 
   /**

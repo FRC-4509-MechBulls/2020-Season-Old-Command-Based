@@ -13,7 +13,7 @@ public class OI {
     public XboxController2 controller2;
     DriveTrigger driveTrigger;
     GrabberTrigger grabberTrigger;
-
+    ElevatorTrigger elevatorTrigger;
     public OI(){
         this.controller1 = new XboxController1(RobotMap.XBOX_CONTROLLER_1_PORT);
         this.controller2 = new XboxController2(RobotMap.XBOX_CONTROLLER_2_PORT);
@@ -21,7 +21,7 @@ public class OI {
     public void setTriggers(){
         // this.driveTrigger.whileActive(new DirectDriveCommand());
         // this.grabberTrigger.whileActive(new WheelArmCommand());
-
+       // this.elevatorTrigger.whileActive(new ElevatorPostion());
     }
 
 	class DriveTrigger extends Trigger {
@@ -29,6 +29,9 @@ public class OI {
     }
     class GrabberTrigger extends Trigger{
         public boolean get(){ return (Robot.oi.controller2.getArm() != 0);}
+    }
+    class ElevatorTrigger extends Trigger{
+        public boolean get(){return Robot.oi.controller2.setEncoder();}
     }
 
 }
