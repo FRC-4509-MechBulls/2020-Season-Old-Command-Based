@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -32,22 +33,11 @@ public class RobotMap {
 	public static final int XBOX_CONTROLLER_1_PORT = 0;
     public static final int XBOX_CONTROLLER_2_PORT = 1;
 
+	public static final Encoder leftEncoder = new Encoder(0,1);
+	public static final Encoder rightEncoder = new Encoder(2,3);
 
-	public static final WPI_TalonSRX elevatorTalon = new WPI_TalonSRX(5);
-	public static final int kSlotIdx = 0;
-	public static final int kPIDLoopIdx = 0;
-	public static final int kTimeoutMs = 30;
+	public static final WPI_TalonSRX elevatorTalon = new WPI_TalonSRX(2);
 
-	public static boolean kSensorPhase = true;
-
-	public static boolean kMotorInvert = false;
-
-	/**
-	 * Gains used in Positon Closed Loop, to be adjusted accordingly
-     * Gains(kp, ki, kd, kf, izone, peak output);
-     */
-    public static final Gains kGains = new Gains(0.15, 0.0, 1.0, 0.0, 0, 1.0);
-	
 
 	
 
