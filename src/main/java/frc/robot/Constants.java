@@ -39,6 +39,13 @@ public class Constants {
 	public static final WPI_TalonSRX elevatorTalon = new WPI_TalonSRX(2);
 
 
+	public static void init(){
+		leftEncoder.setDistancePerPulse(1./256.);
+		rightEncoder.setDistancePerPulse(1./256.);
+		rightEncoder.reset();
+		leftEncoder.reset();
+		
+	}
 	
 
 	

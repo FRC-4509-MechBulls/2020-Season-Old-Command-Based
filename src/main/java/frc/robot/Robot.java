@@ -10,6 +10,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -97,10 +98,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
 	System.out.println("Auto selected: " + m_autoSelected);
-	Constants.leftEncoder.setDistancePerPulse(1./256.);
-	Constants.rightEncoder.setDistancePerPulse(1./256.);
-	Constants.rightEncoder.reset();
-	Constants.leftEncoder.reset();
+
 
 
   }
@@ -110,6 +108,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    SmartDashboard.putNumber("encoder value right", (Constants.rightEncoder.get()));
+    SmartDashboard.putNumber("encoder value left",  (Constants.leftEncoder.get()));
 	//    // Assuming no wheel slip, the difference in encoder distances is proportional to the heading error
 	//    double error = Constants.leftEncoder.getDistance() - Constants.rightEncoder.getDistance();
 
@@ -138,6 +138,38 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    String gameData;
+gameData = DriverStation.getInstance().getGameSpecificMessage();
+if(gameData.length() > 0)
+{
+  switch (gameData.charAt(0))
+  {
+    case 'B' :
+      //Blue case code
+      SmartDashboard.putString("Blue","B");
+      break;
+    case 'G' :
+      //Green case code
+      SmartDashboard.putString("Green","G");
+
+      break;
+    case 'R' :
+      //Red case code
+      SmartDashboard.putString("Red","R");
+
+      break;
+    case 'Y' :
+      //Yellow case code
+      SmartDashboard.putString("Yellow","Y");
+
+      break;
+    default :
+      //This is corrupt data
+      break;
+  }
+} else {
+  //Code for no data received yet
+}
   Scheduler.getInstance().run();
 if(xbox.setEncoder()==true){
 	encoderSubsystem.motorSet();
