@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 
 /**
  * Add your docs here.
@@ -31,19 +31,19 @@ public class EncoderSubsystem extends Subsystem {
     WPI_TalonSRX leftMotors = new WPI_TalonSRX(2);
     WPI_TalonSRX rightMotors = new WPI_TalonSRX(3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
-    RobotMap.leftEncoder.setDistancePerPulse(1./256.);
-    RobotMap.rightEncoder.setDistancePerPulse(1./256.);
-    RobotMap.rightEncoder.reset();
-    RobotMap.leftEncoder.reset();
+    Constants.leftEncoder.setDistancePerPulse(1./256.);
+    Constants.rightEncoder.setDistancePerPulse(1./256.);
+    Constants.rightEncoder.reset();
+    Constants.leftEncoder.reset();
   }
   public void motorSet() {
-    double error = RobotMap.leftEncoder.getDistance() - RobotMap.rightEncoder.getDistance();
+    double error = Constants.leftEncoder.getDistance() - Constants.rightEncoder.getDistance();
 
     // Drives forward continuously at half speed, using the encoders to stabilize the heading
-   System.out.println(RobotMap.leftEncoder.getDistance());
-   System.out.println(RobotMap.rightEncoder.getDistance());
+   System.out.println(Constants.leftEncoder.getDistance());
+   System.out.println(Constants.rightEncoder.getDistance());
 
-    if(RobotMap.leftEncoder.getDistance() < 100 && RobotMap.rightEncoder.getDistance() < 100 ) {
+    if(Constants.leftEncoder.getDistance() < 100 && Constants.rightEncoder.getDistance() < 100 ) {
        drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
    } else {
        drive.tankDrive(0, 0);

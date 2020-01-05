@@ -37,26 +37,22 @@ public class Robot extends TimedRobot {
 	public static EncoderSubsystem encoderSubsystem = new EncoderSubsystem();
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
-  public static OI oi;
+  public static RobotContainer oi;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   WPI_TalonSRX leftMotors = new WPI_TalonSRX(2);
   WPI_TalonSRX rightMotors = new WPI_TalonSRX(3);
 	XboxController2 xbox = new XboxController2(1);
   public DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
 
-  StringBuilder _sb = new StringBuilder();
-  Joystick _joy = new Joystick(0);
-  int _loops = 0;
-  boolean _lastButton1 = false;
-	double targetPositionRotations;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    Robot.oi = new OI();
-    oi = new OI();
+    Robot.oi = new RobotContainer();
+    oi = new RobotContainer();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -78,6 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
   }
 	@Override
 	public void disabledInit() {
@@ -100,10 +97,10 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
 	System.out.println("Auto selected: " + m_autoSelected);
-	RobotMap.leftEncoder.setDistancePerPulse(1./256.);
-	RobotMap.rightEncoder.setDistancePerPulse(1./256.);
-	RobotMap.rightEncoder.reset();
-	RobotMap.leftEncoder.reset();
+	Constants.leftEncoder.setDistancePerPulse(1./256.);
+	Constants.rightEncoder.setDistancePerPulse(1./256.);
+	Constants.rightEncoder.reset();
+	Constants.leftEncoder.reset();
 
 
   }
@@ -114,13 +111,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 	//    // Assuming no wheel slip, the difference in encoder distances is proportional to the heading error
-	//    double error = RobotMap.leftEncoder.getDistance() - RobotMap.rightEncoder.getDistance();
+	//    double error = Constants.leftEncoder.getDistance() - Constants.rightEncoder.getDistance();
 
 	//    // Drives forward continuously at half speed, using the encoders to stabilize the heading
-	//   System.out.println(RobotMap.leftEncoder.getDistance());
-	//   System.out.println(RobotMap.rightEncoder.getDistance());
+	//   System.out.println(Constants.leftEncoder.getDistance());
+	//   System.out.println(Constants.rightEncoder.getDistance());
 
-	//    if(RobotMap.leftEncoder.getDistance() < 1000 && RobotMap.rightEncoder.getDistance() < 1000 ) {
+	//    if(Constants.leftEncoder.getDistance() < 1000 && Constants.rightEncoder.getDistance() < 1000 ) {
     //     drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
     // } else {
     //     drive.tankDrive(0, 0);
@@ -146,8 +143,8 @@ if(xbox.setEncoder()==true){
 	encoderSubsystem.motorSet();
 }
 else{
-	RobotMap.rightEncoder.reset();
-    RobotMap.leftEncoder.reset();
+	Constants.rightEncoder.reset();
+    Constants.leftEncoder.reset();
 }
   }
 
