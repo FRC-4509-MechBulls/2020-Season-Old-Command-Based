@@ -7,21 +7,23 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
+ * The Constants is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
-public class RobotMap {
+public class Constants {
 
 	public static final int LEFT_FRONT_DRIVE_TALON_PORT  = 6;
 	public static final int LEFT_BACK_DRIVE_TALON_PORT   = 7;
@@ -31,8 +33,11 @@ public class RobotMap {
 	public static final int XBOX_CONTROLLER_1_PORT = 0;
     public static final int XBOX_CONTROLLER_2_PORT = 1;
 
+	public static final Encoder leftEncoder = new Encoder(0,1);
+	public static final Encoder rightEncoder = new Encoder(2,3);
 
-	
+	public static final WPI_TalonSRX elevatorTalon = new WPI_TalonSRX(2);
+
 
 	
 

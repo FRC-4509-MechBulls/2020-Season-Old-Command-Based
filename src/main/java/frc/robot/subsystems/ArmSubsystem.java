@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 import frc.robot.commands.DirectDriveCommand;
 import frc.robot.commands.WheelArmCommand;
 
@@ -25,7 +25,7 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public static void initArm(){
-		grabberTalon = new WPI_TalonSRX(RobotMap.GRABBER_TALON_PORT);
+		grabberTalon = new WPI_TalonSRX(Constants.GRABBER_TALON_PORT);
 	}
 
 	public void stop() {

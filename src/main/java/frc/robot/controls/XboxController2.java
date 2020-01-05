@@ -11,4 +11,7 @@ public class XboxController2{
         double n = this.controller2.getY(GenericHID.Hand.kRight);
 		return Math.abs(n) < 0.1 ? 0 : n;
     }
+    public boolean setEncoder(){
+        return this.controller2.getYButton();
+    }
 }

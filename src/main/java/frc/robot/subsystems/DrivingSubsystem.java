@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 import frc.robot.commands.DirectDriveCommand;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -44,10 +44,10 @@ public class DrivingSubsystem extends Subsystem {
 	}
 	
 	public static void initDrive() {
-		leftFrontDriveTalon  = new WPI_TalonSRX(RobotMap.LEFT_FRONT_DRIVE_TALON_PORT);
-		leftBackDriveTalon   = new WPI_TalonSRX(RobotMap.LEFT_BACK_DRIVE_TALON_PORT);
-		rightFrontDriveTalon = new WPI_TalonSRX(RobotMap.RIGHT_FRONT_DRIVE_TALON_PORT);
-		rightBackDriveTalon  = new WPI_TalonSRX(RobotMap.RIGHT_BACK_DRIVE_TALON_PORT);
+		leftFrontDriveTalon  = new WPI_TalonSRX(Constants.LEFT_FRONT_DRIVE_TALON_PORT);
+		leftBackDriveTalon   = new WPI_TalonSRX(Constants.LEFT_BACK_DRIVE_TALON_PORT);
+		rightFrontDriveTalon = new WPI_TalonSRX(Constants.RIGHT_FRONT_DRIVE_TALON_PORT);
+		rightBackDriveTalon  = new WPI_TalonSRX(Constants.RIGHT_BACK_DRIVE_TALON_PORT);
 		
 		leftBackDriveTalon.follow(leftFrontDriveTalon);
 		rightBackDriveTalon.follow(rightFrontDriveTalon);
