@@ -11,23 +11,20 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants;
 
 /**
  * Add your docs here.
  */
-public class EncoderSubsystem extends Subsystem {
+public class EncoderSubsystem extends SubsystemBase {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public static DifferentialDrive drive;
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-   // setDefaultCommand(new ElevatorPostion());
-  }
-  public void initElevator(){
+ 
+  public static void initEncoder(){
     WPI_TalonSRX leftMotors = new WPI_TalonSRX(2);
     WPI_TalonSRX rightMotors = new WPI_TalonSRX(3);
     drive = new DifferentialDrive(leftMotors, rightMotors);

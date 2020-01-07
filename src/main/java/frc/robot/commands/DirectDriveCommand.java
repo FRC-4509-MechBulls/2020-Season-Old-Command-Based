@@ -1,18 +1,24 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
-
+import frc.robot.subsystems.DrivingSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DirectDriveCommand extends Command {
+public class DirectDriveCommand extends CommandBase {
 	
-	public DirectDriveCommand() {
-		requires(Robot.drivingSubsystem); // Tells the Scheduler that this command will need the DrivingSubsystem.
+	private final DrivingSubsystem drivingSubsystem;
+	public DirectDriveCommand(DrivingSubsystem subsystem) {
+	  // Use addRequirements() here to declare subsystem dependencies.
+	  drivingSubsystem = subsystem;
+	  addRequirements(drivingSubsystem);
 	}
+  
 
-	protected void initialize() {
+	public void initialize() {
 		// Make sure the controller is initialized before we try to use it.
-		if(Robot.oi.controller1 == null) throw new NullPointerException("Controller was null.");
+		if (Robot.oi.controller1 == null)
+			throw new NullPointerException("Controller was null.");
 
 	}
 
@@ -20,7 +26,7 @@ public class DirectDriveCommand extends Command {
 		Robot.drivingSubsystem.drive(Robot.oi.controller1.getDrive(), Robot.oi.controller1.getTurn()); // Use input directly from the controller
 	}
 
-	protected boolean isFinished() {
+	public boolean isFinished() {
 		return false; // We don't want the command to stop, we want it to be interrupted.
 	}
 

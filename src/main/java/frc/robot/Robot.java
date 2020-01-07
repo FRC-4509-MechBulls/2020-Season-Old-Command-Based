@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.controls.XboxController2;
 import frc.robot.commands.DirectDriveCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -63,7 +65,7 @@ public class Robot extends TimedRobot {
 		Constants.leftEncoder.reset();
      drivingSubsystem.initDrive();
 	armSubsystem.initArm();
-	encoderSubsystem.initElevator();
+  encoderSubsystem.initEncoder();
 
 
 	
@@ -174,7 +176,7 @@ if(gameData.length() > 0)
 } else {
   //Code for no data received yet
 }
-  Scheduler.getInstance().run();
+CommandScheduler.getInstance().run();
 if(xbox.setEncoder()==true){
 	encoderSubsystem.motorSet();
 }
