@@ -57,6 +57,10 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    Constants.leftEncoder.setDistancePerPulse(Constants.encoderDistance);
+		Constants.rightEncoder.setDistancePerPulse(Constants.encoderDistance);
+		Constants.rightEncoder.reset();
+		Constants.leftEncoder.reset();
      drivingSubsystem.initDrive();
 	armSubsystem.initArm();
 	encoderSubsystem.initElevator();
@@ -117,7 +121,7 @@ public class Robot extends TimedRobot {
 	//   System.out.println(Constants.leftEncoder.getDistance());
 	//   System.out.println(Constants.rightEncoder.getDistance());
 
-	//    if(Constants.leftEncoder.getDistance() < 1000 && Constants.rightEncoder.getDistance() < 1000 ) {
+	//    if(Constants.leftEncoder.get() < 1000 && Constants.rightEncoder.get() < 1000 ) {
     //     drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
     // } else {
     //     drive.tankDrive(0, 0);
@@ -176,7 +180,7 @@ if(xbox.setEncoder()==true){
 }
 else{
 	Constants.rightEncoder.reset();
-    Constants.leftEncoder.reset();
+  Constants.leftEncoder.reset();
 }
   }
 

@@ -31,20 +31,20 @@ public class EncoderSubsystem extends Subsystem {
     WPI_TalonSRX leftMotors = new WPI_TalonSRX(2);
     WPI_TalonSRX rightMotors = new WPI_TalonSRX(3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
-    Constants.leftEncoder.setDistancePerPulse(1./256.);
-    Constants.rightEncoder.setDistancePerPulse(1./256.);
+    Constants.leftEncoder.setDistancePerPulse(Constants.encoderDistance);
+		Constants.rightEncoder.setDistancePerPulse(Constants.encoderDistance);
     Constants.rightEncoder.reset();
     Constants.leftEncoder.reset();
   }
   public void motorSet() {
-    double error = Constants.leftEncoder.getDistance() - Constants.rightEncoder.getDistance();
+    //double error = Constants.leftEncoder.getDistance() - Constants.rightEncoder.getDistance();
 
     // Drives forward continuously at half speed, using the encoders to stabilize the heading
    System.out.println(Constants.leftEncoder.getDistance());
    System.out.println(Constants.rightEncoder.getDistance());
 
-    if(Constants.leftEncoder.getDistance() < 100 && Constants.rightEncoder.getDistance() < 100 ) {
-       drive.tankDrive(.5 + 1 * error, .5 - 1 * error);
+    if(Constants.leftEncoder.get() < 256 && Constants.rightEncoder.get() < 256 ) {
+       drive.tankDrive(0.25,0.25);
    } else {
        drive.tankDrive(0, 0);
    }

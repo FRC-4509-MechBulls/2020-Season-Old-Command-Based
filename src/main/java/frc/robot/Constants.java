@@ -37,15 +37,10 @@ public class Constants {
 	public static final Encoder rightEncoder = new Encoder(2,3);
 
 	public static final WPI_TalonSRX elevatorTalon = new WPI_TalonSRX(2);
+	public static final double encoderDiameter = 0.5; //in feet
+	public static final double encoderDistance = encoderDiameter*3.14/1024;
 
 
-	public static void init(){
-		leftEncoder.setDistancePerPulse(1./256.);
-		rightEncoder.setDistancePerPulse(1./256.);
-		rightEncoder.reset();
-		leftEncoder.reset();
-		
-	}
 	
 
 	
